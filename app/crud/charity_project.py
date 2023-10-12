@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud.base import CRUDBase
 from app.models import CharityProject
-from app.schemas.charityproject import CharityProjectUpdate
+from app.schemas.charity_project import CharityProjectUpdate
 
 
 class CRUDCharityProject(CRUDBase):
@@ -17,12 +17,12 @@ class CRUDCharityProject(CRUDBase):
         charity_project_name: str,
         session: AsyncSession
     ) -> Optional[CharityProject]:
-        charity_project = await session.execute(
+        db_obj = await session.execute(
             select(CharityProject).where(
                 CharityProject.name == charity_project_name
             )
         )
-        return charity_project.scalars().first()
+        return db_obj.scalars().first()
 
     async def update(
         self: 'CRUDCharityProject',

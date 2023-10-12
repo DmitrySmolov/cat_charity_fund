@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import CharityProject, Donation, User
-from app.schemas.charityproject import CharityProjectCreate
+from app.schemas.charity_project import CharityProjectCreate
 from app.schemas.donation import DonationCreate
 
 

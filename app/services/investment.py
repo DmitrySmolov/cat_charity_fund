@@ -1,16 +1,19 @@
 from datetime import datetime
+from typing import Union
 
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import Message
-from app.crud.charityproject import charity_project_crud
+from app.crud.charity_project import charity_project_crud
 from app.crud.donation import donation_crud
+from app.models import CharityProject, Donation
 
 
 async def perform_investment(
-    session: AsyncSession
-) -> None:
+    session: AsyncSession,
+    new_db_obj: Union[CharityProject, Donation]
+) -> Union[CharityProject, Donation]:
     """
     Функция распределения средств среди активных проектов и пожертвований.
     """
@@ -64,6 +67,8 @@ async def perform_investment(
             session.add(first_active_project)
 
         await session.commit()
+        await session.refresh(new_db_obj)
+        return new_db_obj
 
     except SQLAlchemyError as error:
         await session.rollback()

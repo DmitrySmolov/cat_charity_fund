@@ -11,7 +11,7 @@ class Settings(BaseSettings):
         'кошачьей колонии в подвале, на корм оставшимся без попечения кошкам '
         '— на любые цели, связанные с поддержкой кошачьей популяции.'
     )
-    database_url: str
+    database_url: str = 'sqlite+aiosqlite:///./default.db'
     secret: str = 'SECRET'
     first_superuser_email: Optional[EmailStr] = None
     first_superuser_password: Optional[str] = None
@@ -30,14 +30,16 @@ class Constant:
     USER_PASSWORD_MIN_LEN = 3
     NAME_FLD_MIN_LEN = 1
     NAME_FLD_MAX_LEN = 100
-    CHARITY_ENDPOINTS_PREFIX = '/charity_project'
-    CHARITY_ENDPOINTS_TAGS = ('charity_projects',)
+    CHARITY_PROJ_ENDPOINTS_PREFIX = '/charity_project'
+    CHARITY_PROJ_ENDPOINTS_TAGS = ('charity_projects',)
+    DONATION_ENDPOINTS_PREFIX = '/donation'
+    DONATION_ENDPOINTS_TAGS = ('donations',)
 
 
 class Message:
     USER_PASSWORD_TOO_SHORT = (
-        f'Пароль не должен быть короче {Constant.USER_PASSWORD_MIN_LEN} '
-        'символов.'
+        f'Password should be at least {Constant.USER_PASSWORD_MIN_LEN} '
+        'characters'
     )
     USER_PASSWORD_IS_EMAIL = 'Пароль не должен совпадать с емейлом.'
     USER_REGISTRED = 'Зарегистрирован пользователь:'
@@ -46,9 +48,9 @@ class Message:
     CHARITY_DATES_ERROR = 'Дата закрытия не может быть раньше даты открытия.'
     CHARITY_AMOUNTS_ERROR = 'Внесённая сумма не может превышать полную сумму.'
     CHARITY_FUTURE_CREATE_ERROR = 'Дата открытия не может быть в будущем.'
-    CHARITY_PROJ_NAME_EXISTS = 'Проект с таким именем уже существует.'
+    CHARITY_PROJ_NAME_EXISTS = 'Проект с таким именем уже существует!'
     CHARITY_PROJ_NAME_NOT_NULL = 'Название проекта не может быть пустым.'
     CHARITY_PROJ_DESCR_NOT_NULL = 'Описание проекта не может быть пустым.'
     CHARITY_PROJ_NOT_FOUND = 'Проекта с таким ID не найдено.'
-    CHARITY_PROJ_INVESTED = 'В проект уже внесены средства. Удаление запрещено.'
-    CHARITY_PROJ_CLOSED = 'Проект закрыт. Его редактирование запрещено.'
+    CHARITY_PROJ_INVESTED = 'В проект были внесены средства, не подлежит удалению!'
+    CHARITY_PROJ_CLOSED = 'Закрытый проект нельзя редактировать!'

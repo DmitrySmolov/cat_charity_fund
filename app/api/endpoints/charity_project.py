@@ -8,11 +8,11 @@ from app.api.validators import (check_charity_project_active,
                                 check_charity_project_not_invested)
 from app.core.db import get_async_session
 from app.core.user import current_superuser
-from app.crud.charityproject import charity_project_crud
+from app.crud.charity_project import charity_project_crud
 from app.services.investment import perform_investment
-from app.schemas.charityproject import (CharityProjectCreate,
-                                        CharityProjectDB,
-                                        CharityProjectUpdate)
+from app.schemas.charity_project import (CharityProjectCreate,
+                                         CharityProjectDB,
+                                         CharityProjectUpdate)
 
 router = APIRouter()
 
@@ -52,9 +52,8 @@ async def create_charity_project(
         obj_in=charity_project,
         session=session
     )
-    await perform_investment(session=session)
-    await session.refresh(new_charity_project)
-    return new_charity_project
+    return await perform_investment(session=session,
+                                    new_db_obj=new_charity_project)
 
 
 @router.delete(
