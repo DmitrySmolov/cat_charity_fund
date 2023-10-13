@@ -13,7 +13,7 @@ from app.schemas.charity_project import CharityProjectUpdate
 class CRUDCharityProject(CRUDBase):
 
     async def get_charity_project_by_name(
-        self: 'CRUDCharityProject',
+        self,
         charity_project_name: str,
         session: AsyncSession
     ) -> Optional[CharityProject]:
@@ -25,7 +25,7 @@ class CRUDCharityProject(CRUDBase):
         return db_obj.scalars().first()
 
     async def update(
-        self: 'CRUDCharityProject',
+        self,
         db_obj: CharityProject,
         obj_in: CharityProjectUpdate,
         session: AsyncSession
@@ -44,7 +44,7 @@ class CRUDCharityProject(CRUDBase):
         return db_obj
 
     async def remove(
-        self: 'CRUDCharityProject',
+        self,
         db_obj: CharityProject,
         session: AsyncSession
     ) -> CharityProject:

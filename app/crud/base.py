@@ -11,13 +11,13 @@ from app.schemas.donation import DonationCreate
 class CRUDBase:
 
     def __init__(
-        self: 'CRUDBase',
+        self,
         model: Union[CharityProject, Donation]
     ) -> None:
         self.model = model
 
     async def get(
-        self: 'CRUDBase',
+        self,
         obj_id: int,
         session: AsyncSession
     ) -> Union[CharityProject, Donation]:
@@ -29,14 +29,14 @@ class CRUDBase:
         return db_obj.scalars().first()
 
     async def get_multi(
-        self: 'CRUDBase',
+        self,
         session: AsyncSession
     ) -> list[Union[CharityProject, Donation]]:
         db_objs = await session.execute(select(self.model))
         return db_objs.scalars().all()
 
     async def create(
-        self: 'CRUDBase',
+        self,
         obj_in: Union[CharityProjectCreate, DonationCreate],
         session: AsyncSession,
         user: Optional[User] = None
@@ -51,7 +51,7 @@ class CRUDBase:
         return db_obj
 
     async def get_active_order_by_create_date(
-        self: 'CRUDBase',
+        self,
         session: AsyncSession
     ) -> list[Union[CharityProject, Donation]]:
         db_objs = await session.execute(

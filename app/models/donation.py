@@ -10,7 +10,7 @@ class Donation(CharityBase):
                      nullable=False)
     comment = Column(Text)
 
-    def __repr__(self: 'Donation') -> str:
+    def __repr__(self) -> str:
         return (
             f'Пожертвование от ID {self.user_id}: {self.invested_amount}/' +
             str(self.full_amount)

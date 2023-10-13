@@ -7,7 +7,7 @@ from app.models import Donation, User
 class CRUDDonation(CRUDBase):
 
     async def get_multi_for_current_user(
-        self: 'CRUDDonation',
+        self,
         user: User,
         session: AsyncSession
     ) -> list[Donation]:

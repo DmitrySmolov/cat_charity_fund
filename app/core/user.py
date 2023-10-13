@@ -1,3 +1,4 @@
+import logging
 from typing import Optional, Union
 
 from fastapi import Depends, Request
@@ -25,7 +26,7 @@ bearer_transport = BearerTransport(tokenUrl=Constant.JWT_TOKEN_URL)
 
 def get_jwt_strategy() -> JWTStrategy:
     return JWTStrategy(secret=settings.secret,
-                       lifetime_seconds=Constant.JWT_TOKEN_LIFETIME)
+                       lifetime_seconds=settings.jwt_token_lifetime)
 
 
 auth_backend = AuthenticationBackend(
@@ -38,11 +39,11 @@ auth_backend = AuthenticationBackend(
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
 
     async def validate_password(
-        self: 'UserManager',
+        self,
         password: str,
         user: Union[UserCreate, User]
     ) -> None:
-        if len(password) < Constant.USER_PASSWORD_MIN_LEN:
+        if len(password) < settings.user_password_min_len:
             raise InvalidPasswordException(
                 reason=Message.USER_PASSWORD_TOO_SHORT
             )
@@ -52,11 +53,11 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
             )
 
     async def on_after_register(
-        self: 'UserManager',
+        self,
         user: User,
         request: Optional[Request] = None
     ) -> None:
-        print(Message.USER_REGISTRED, user.email)
+        logging.info(f'{Message.USER_REGISTRED} {user.email}')
 
 
 async def get_user_manager(user_db=Depends(get_user_db)):
